@@ -1,4 +1,4 @@
-package es.iessaladillo.pedrojoya.pr05.ui.main;
+package es.iessaladillo.pedrojoya.pr05.ui.profile;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -19,23 +19,25 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import es.iessaladillo.pedrojoya.pr05.R;
 import es.iessaladillo.pedrojoya.pr05.data.local.Database;
 import es.iessaladillo.pedrojoya.pr05.data.local.model.Avatar;
-import es.iessaladillo.pedrojoya.pr05.ui.MainActivityViewModel;
+import es.iessaladillo.pedrojoya.pr05.ui.ProfileActivityViewModel;
 import es.iessaladillo.pedrojoya.pr05.ui.avatar.AvatarActivity;
 
 import static es.iessaladillo.pedrojoya.pr05.utils.ValidationUtils.isValidEmail;
 import static es.iessaladillo.pedrojoya.pr05.utils.ValidationUtils.isValidPhone;
 import static es.iessaladillo.pedrojoya.pr05.utils.ValidationUtils.isValidUrl;
 @SuppressWarnings("WeakerAccess")
-public class MainActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     // Request Code (identificación de la petición)
-    MainActivityViewModel viewModel;
+    ProfileActivityViewModel viewModel;
     public final int RC_IMG_AVATAR=1;
     private TextView lblAvatar,lblName,lblEmail,lblPhonenumber,lblAddress,lblWeb;
     private ImageView imgAvatar,imgEmail,imgPhonenumber,imgAddress,imgWeb;
@@ -45,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
         initViews();
-        viewModel=ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        viewModel=ViewModelProviders.of(this).get(ProfileActivityViewModel.class);
         if(viewModel.getAvatar()==null){
             viewModel.setAvatar(Database.getInstance().getDefaultAvatar());
         }
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         txtName.requestFocus();
         lblName.setTypeface(Typeface.DEFAULT_BOLD);
 
-        imgAvatar.setOnClickListener(v -> AvatarActivity.startForResult(MainActivity.this,RC_IMG_AVATAR,avatar));
-        lblAvatar.setOnClickListener(v -> AvatarActivity.startForResult(MainActivity.this,RC_IMG_AVATAR,avatar));
+        imgAvatar.setOnClickListener(v -> AvatarActivity.startForResult(ProfileActivity.this,RC_IMG_AVATAR,avatar));
+        lblAvatar.setOnClickListener(v -> AvatarActivity.startForResult(ProfileActivity.this,RC_IMG_AVATAR,avatar));
         txtName.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus){
                 lblName.setTypeface(Typeface.DEFAULT_BOLD);
@@ -155,24 +157,21 @@ public class MainActivity extends AppCompatActivity {
                 validateWeb();
             }
         });
-        txtWeb.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    save();
-                    InputMethodManager imm =
-                            (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    // Se ha gestionado el evento.
-                    return true;
-                }
-                return false;
+        txtWeb.setOnEditorActionListener((v, actionId, event) -> {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                save();
+                InputMethodManager imm =
+                        (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                Objects.requireNonNull(imm).hideSoftInputFromWindow(v.getWindowToken(), 0);
+                // Se ha gestionado el evento.
+                return true;
             }
+            return false;
         });
-        imgEmail.setOnClickListener(v1 -> onClick(v1));
-        imgPhonenumber.setOnClickListener(v -> onClick(v));
-        imgAddress.setOnClickListener(v -> onClick(v));
-        imgWeb.setOnClickListener(v -> onClick(v));
+        imgEmail.setOnClickListener(this::onClick);
+        imgPhonenumber.setOnClickListener(this::onClick);
+        imgAddress.setOnClickListener(this::onClick);
+        imgWeb.setOnClickListener(this::onClick);
     }
 
     @Override

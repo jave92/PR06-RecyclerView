@@ -31,5 +31,6 @@
     <string name="main_imgWeb_desc">Web icon</string>
     <string name="main_imgAvatar_desc">Avatar</string>
     <string name="main_dimension_ratio">16:9</string>
+    <string name="main_no_students_yet">No students yet</string>
     <!-- TODO -->
 </resources>

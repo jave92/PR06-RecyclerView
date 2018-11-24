@@ -1,4 +1,4 @@
-package es.iessaladillo.pedrojoya.pr05.ui.main;
+package es.iessaladillo.pedrojoya.pr05.ui.profile;
 
 
 import org.junit.Before;
@@ -23,15 +23,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MainActivityRotationTest {
+public class ProfileActivityRotationTest {
 
     @Rule
-    public final IntentsTestRule<MainActivity> testRule = new IntentsTestRule<>(MainActivity.class);
+    public final IntentsTestRule<ProfileActivity> testRule = new IntentsTestRule<>(ProfileActivity.class);
 
     @Before
     public void setup() {

@@ -1,4 +1,4 @@
-package es.iessaladillo.pedrojoya.pr05.ui.main;
+package es.iessaladillo.pedrojoya.pr05.ui.profile;
 
 
 import android.app.Activity;
@@ -39,10 +39,10 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MainActivityIntentTest {
+public class ProfileActivityIntentTest {
 
     @Rule
-    public final IntentsTestRule<MainActivity> testRule = new IntentsTestRule<>(MainActivity.class);
+    public final IntentsTestRule<ProfileActivity> testRule = new IntentsTestRule<>(ProfileActivity.class);
 
     @Before
     public void setup() {

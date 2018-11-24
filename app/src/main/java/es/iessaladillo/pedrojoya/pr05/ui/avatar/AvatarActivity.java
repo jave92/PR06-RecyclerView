@@ -16,12 +16,11 @@ import androidx.lifecycle.ViewModelProviders;
 import es.iessaladillo.pedrojoya.pr05.R;
 import es.iessaladillo.pedrojoya.pr05.data.local.Database;
 import es.iessaladillo.pedrojoya.pr05.data.local.model.Avatar;
-import es.iessaladillo.pedrojoya.pr05.ui.MainActivityViewModel;
-import es.iessaladillo.pedrojoya.pr05.ui.main.MainActivity;
+import es.iessaladillo.pedrojoya.pr05.ui.ProfileActivityViewModel;
 import es.iessaladillo.pedrojoya.pr05.utils.ResourcesUtils;
 
 public class AvatarActivity extends AppCompatActivity {
-    MainActivityViewModel viewModel;
+    ProfileActivityViewModel viewModel;
     @VisibleForTesting
     public static final String EXTRA_AVATAR = "EXTRA_AVATAR";
 
@@ -36,7 +35,7 @@ public class AvatarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
-        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ProfileActivityViewModel.class);
         initViews();
         if(viewModel.getAvatar()==null){
             getIntentData();

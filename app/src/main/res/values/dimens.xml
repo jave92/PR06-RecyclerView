@@ -3,4 +3,6 @@
     <!-- TODO -->
     <dimen name="general_activity_margin">8dp</dimen>
     <dimen name="main_margin">8dp</dimen>
+    <dimen name="main_lblEmptyView_drawablePadding">16dp</dimen>
+    <dimen name="main_item_margin">8dp</dimen>
 </resources>
