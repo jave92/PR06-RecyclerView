@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TODO -->
+    <dimen name="general_activity_margin">8dp</dimen>
+    <dimen name="main_margin">8dp</dimen>
+</resources>

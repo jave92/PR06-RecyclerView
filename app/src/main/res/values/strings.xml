@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Profile</string>
+    <string name="avatar_label">Select Avatar</string>
+    <string name="main_invalid_data">Invalid data</string>
+    <string name="main_save">Save</string>
+    <string name="main_saved_succesfully">Student saved successfully</string>
+    <string name="main_error_saving">Error saving student</string>
+    <string name="avatar_select">Select</string>
+    <string name="main_lblName">Name</string>
+    <string name="main_txtName">(name)</string>
+    <string name="main_lblEmail">Email</string>
+    <string name="main_txtEmail">(email)</string>
+    <string name="main_lblName_text">Name</string>
+    <string name="main_lblEmail_text">email</string>
+    <string name="main_txtName_autofillHints">Name</string>
+    <string name="main_txtName_hint">(name)</string>
+    <string name="main_txtEmail_autofillHints">Email</string>
+    <string name="main_txtEmail_hint">(email)</string>
+    <string name="main_imgEmail_desc">Email icon</string>
+    <string name="main_lblPhonenumber_text">Phone number</string>
+    <string name="main_imgPhonenumber_desc">Phone number</string>
+    <string name="main_txtPhonenumber_autofillHints">Phone number</string>
+    <string name="main_txtPhonenumber_hint">(phone)</string>
+    <string name="main_lblAddress_text">Address</string>
+    <string name="main_txtAddress_autofillHints">Address</string>
+    <string name="main_txtAddress_hint">(address)</string>
+    <string name="main_imgAddress_desc">Address icon</string>
+    <string name="main_lblWeb_text">Web</string>
+    <string name="main_txtWeb_autofillHints">url</string>
+    <string name="main_txtWeb_hint">(url)</string>
+    <string name="main_imgWeb_desc">Web icon</string>
+    <string name="main_imgAvatar_desc">Avatar</string>
+    <string name="main_dimension_ratio">16:9</string>
+    <!-- TODO -->
+</resources>
