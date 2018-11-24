@@ -29,8 +29,10 @@
     <string name="main_txtWeb_autofillHints">url</string>
     <string name="main_txtWeb_hint">(url)</string>
     <string name="main_imgWeb_desc">Web icon</string>
-    <string name="main_imgAvatar_desc">Avatar</string>
     <string name="main_dimension_ratio">16:9</string>
     <string name="main_no_students_yet">No students yet</string>
+    <string name="main_btnEdit_text">Edit</string>
+    <string name="main_btnDelete_text">Delete</string>
+    <string name="main_imgAvatar_desc">Avatar</string>
     <!-- TODO -->
 </resources>
