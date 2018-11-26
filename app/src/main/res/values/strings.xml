@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Profile</string>
+    <string name="app_name">Users</string>
     <string name="avatar_label">Select Avatar</string>
     <string name="main_invalid_data">Invalid data</string>
     <string name="main_save">Save</string>
@@ -34,5 +34,6 @@
     <string name="main_btnEdit_text">Edit</string>
     <string name="main_btnDelete_text">Delete</string>
     <string name="main_imgAvatar_desc">Avatar</string>
+    <string name="profile_label">Profile</string>
     <!-- TODO -->
 </resources>

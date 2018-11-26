@@ -1,5 +1,6 @@
 package es.iessaladillo.pedrojoya.pr05.ui.profile;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -16,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -26,9 +28,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import es.iessaladillo.pedrojoya.pr05.R;
 import es.iessaladillo.pedrojoya.pr05.data.local.Database;
+import es.iessaladillo.pedrojoya.pr05.data.local.UsersDatabase;
 import es.iessaladillo.pedrojoya.pr05.data.local.model.Avatar;
+import es.iessaladillo.pedrojoya.pr05.data.local.model.User;
 import es.iessaladillo.pedrojoya.pr05.ui.ProfileActivityViewModel;
 import es.iessaladillo.pedrojoya.pr05.ui.avatar.AvatarActivity;
+import es.iessaladillo.pedrojoya.pr05.ui.main.ViewCardActivity;
 
 import static es.iessaladillo.pedrojoya.pr05.utils.ValidationUtils.isValidEmail;
 import static es.iessaladillo.pedrojoya.pr05.utils.ValidationUtils.isValidPhone;
@@ -43,24 +48,23 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView imgAvatar,imgEmail,imgPhonenumber,imgAddress,imgWeb;
     private EditText txtName,txtEmail,txtPhonenumber,txtAddress,txtWeb;
     private Avatar avatar;
+    private User userIn;
+    public static final String EXTRA_USER_TO_MAIN="EXTRA_USER_TO_MAIN";
+    public static final String EXTRA_USER_FROM_MAIN="EXTRA_USER_FROM_MAIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        initViews();
         viewModel=ViewModelProviders.of(this).get(ProfileActivityViewModel.class);
-        if(viewModel.getAvatar()==null){
-            viewModel.setAvatar(Database.getInstance().getDefaultAvatar());
-        }
-        imgAvatar.setImageResource(viewModel.getAvatar().getImageResId());
-        imgAvatar.setTag(viewModel.getAvatar().getImageResId());
-        lblAvatar.setText(viewModel.getAvatar().getName());
-        txtName.requestFocus();
-        lblName.setTypeface(Typeface.DEFAULT_BOLD);
+        initViews();
 
-        imgAvatar.setOnClickListener(v -> AvatarActivity.startForResult(ProfileActivity.this,RC_IMG_AVATAR,avatar));
-        lblAvatar.setOnClickListener(v -> AvatarActivity.startForResult(ProfileActivity.this,RC_IMG_AVATAR,avatar));
+        if(savedInstanceState==null){
+            getIntentData();
+        }
+
+        imgAvatar.setOnClickListener(v -> AvatarActivity.startForResult(ProfileActivity.this,RC_IMG_AVATAR,viewModel.getAvatar()));
+        lblAvatar.setOnClickListener(v -> AvatarActivity.startForResult(ProfileActivity.this,RC_IMG_AVATAR,viewModel.getAvatar()));
         txtName.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus){
                 lblName.setTypeface(Typeface.DEFAULT_BOLD);
@@ -228,6 +232,15 @@ public class ProfileActivity extends AppCompatActivity {
         lblWeb = findViewById(R.id.lblWeb);
         txtWeb = findViewById(R.id.txtWeb);
         imgWeb = findViewById(R.id.imgWeb);
+
+        if(viewModel.getAvatar()==null){
+            viewModel.setAvatar(Database.getInstance().getDefaultAvatar());
+        }
+        imgAvatar.setImageResource(viewModel.getAvatar().getImageResId());
+        imgAvatar.setTag(viewModel.getAvatar().getImageResId());
+        lblAvatar.setText(viewModel.getAvatar().getName());
+        txtName.requestFocus();
+        lblName.setTypeface(Typeface.DEFAULT_BOLD);
     }
     private boolean validateName(){
         if(txtName.getText().toString().isEmpty()){
@@ -305,6 +318,47 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void startForResult(Activity activity, int requestCode, User user){
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        intent.putExtra(EXTRA_USER_FROM_MAIN,user);
+        activity.startActivityForResult(intent,requestCode);
+    }
+    public static void startForResult(Activity activity, int requestCode){
+        Intent intent = new Intent(activity, ProfileActivity.class);
+        activity.startActivityForResult(intent, requestCode);
+    }
+    private void getIntentData(){
+        Intent intent = getIntent();
+        if(intent!=null && intent.hasExtra(EXTRA_USER_FROM_MAIN)){
+            userIn = intent.getParcelableExtra(EXTRA_USER_FROM_MAIN);
+            viewModel.setUser(userIn);
+            viewModel.setAvatar(userIn.getAvatar());
+            rellenarCampos(userIn);
+        }
+    }
+
+    private void rellenarCampos(User user) {
+        imgAvatar.setImageResource(user.getAvatar().getImageResId());
+        txtName.setText(user.getName());
+        txtEmail.setText(user.getEmail());
+        txtPhonenumber.setText(user.getPhone());
+        txtAddress.setText(user.getAddress());
+        txtWeb.setText(user.getWeb());
+    }
+
+    private void intentUserToMain(){
+        Intent intentOut = new Intent();
+        User userOut;
+        if(userIn==null){
+            userOut = new User(viewModel.getAvatar(),txtName.getText().toString(),txtEmail.getText().toString(),txtPhonenumber.getText().toString(),txtAddress.getText().toString(),txtWeb.getText().toString());
+        }else{
+            userOut= new User(avatar, txtName.getText().toString(),txtEmail.getText().toString(),txtPhonenumber.getText().toString(),txtAddress.getText().toString(),txtWeb.getText().toString());
+            userOut.setId(userIn.getId());
+        }
+        intentOut.putExtra(EXTRA_USER_TO_MAIN,userOut);
+        setResult(RESULT_OK,intentOut);
+        finish();
+    }
     private void save() {
         String message;
         boolean validName = validateName();
@@ -315,11 +369,10 @@ public class ProfileActivity extends AppCompatActivity {
         boolean valid = validName && validEmail && validPhone && validAddress && validWeb;
         if(valid){
             message = getString(R.string.main_saved_succesfully);
+            intentUserToMain();
         }else{
             message = getString(R.string.main_error_saving);
         }
-
-        Snackbar.make(txtName,message, Snackbar.LENGTH_LONG).show();
     }
 
 }

@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".ui.profile.ProfileActivity"
+            android:label="@string/profile_label"
             android:windowSoftInputMode="adjustPan"
             android:parentActivityName=".ui.main.ViewCardActivity">
         </activity>
